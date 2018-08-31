@@ -1,2 +1,2 @@
 # pypwio
-Python library for QuantumEspresso pw.x I/O
+Python module for QuantumEspresso pw.x I/O
