@@ -1,3 +1,5 @@
+from distutils.core import setup
+
 reqs = [
     'pymatgen>=2018.2.13'
 ]
@@ -10,6 +12,7 @@ setup_args = {
     'install_requires': reqs,
     'author': 'Austin Zadoks',
     'author_email': 'zooks97@gmail.com',
+    'url': 'https://github.com/zooks97/pypwio',
     'keywords': [
         'materials science',
         'quantum espresso',
@@ -21,3 +24,5 @@ setup_args = {
         'Programming Language :: Python :: 3.6'
     ]
 }
+
+setup(**setup_args)

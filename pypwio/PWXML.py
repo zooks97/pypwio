@@ -13,6 +13,19 @@ def _string_to_matrix(string):
     return matrix
 
 class PWXML(object):
+    '''
+    Object wrapping automatically generated code from generateDS.py which parses pw.x
+        XML output into python objects
+    :param xml_string: python string (decoded) of the pw.x XML file
+    :param xml_path: string describing the path to the pw.x XML file,
+        for bookkeeping
+    :param encoding: encoding of the xml_string, used to convert xml_string
+        to bytes for the generateDS.py parser
+    :param silence: boolean value of whether or not to print the XML file
+    :param show_warnings: boolean value of whether or not to catch warnings from the
+        generateDS.py parser (often generates a lot of warnings about vector representations
+        which are annoying)
+    '''
     def __init__(self, xml_string, xml_path=None, encoding='utf-8', silence=True, show_warnings=False):
         self.xml_string = xml_string
         self.xml_path = xml_path

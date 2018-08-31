@@ -6,6 +6,13 @@ A3_PER_BOHR3 = A_PER_BOHR ** 3
 EV_PER_RY = 13.6056917253
 
 class PWOutput(object):
+    '''
+    Class which parses pw.x standard output into useful physical and 
+        simulation properties
+    :param stdout_string: python string (decoded) of the standard output from a pw.x simulation
+    :param stdout_path: string describing the path to the standard output file from pw.x,
+        used for bookkeeping
+    '''
     def __init__(self, stdout_string, stdout_path=None):
         self.stdout_path = stdout_path
         self.stdout_lines = stdout_string.split('\n')
