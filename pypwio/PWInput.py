@@ -36,7 +36,7 @@ class PWInput(PWInputPMG):
         self.kpoints_shift = kpoints_shift
                 
                 
-        super(PWInputDFTman, self).__init__(self.structure, self.pseudo,
+        super(PWInput, self).__init__(self.structure, self.pseudo,
                 self.sections['control'], self.sections['system'],
                 self.sections['electrons'], self.sections['ions'], self.sections['cell'],
                 self.kpoints_mode, self.kpoints_grid, self.kpoints_shift)

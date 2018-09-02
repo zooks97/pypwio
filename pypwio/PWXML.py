@@ -439,16 +439,16 @@ class PWXML(object):
                 'wyckoff_positions' : step.atomic_structure.get_wyckoff_positions(),
             },
             'total_energy': {
-                'demet' : step.total_energy.demet,
-                'eband' : step.total_energy.eband,
-                'efieldcorr' : step.total_energy.efieldcorr,
-                'ehart' : step.total_energy.ehart,
-                'etot' : step.total_energy.etot,
-                'etxc' : step.total_energy.etxc,
-                'ewald' : step.total_energy.ewald,
-                'gatefield_contr' : step.total_energy.gatefield_contr,
-                'potentiostat_contr' : step.total_energy.potentiostat_contr,
-                'vtxc' : step.total_energy.vtxc,
+                'demet' : step.total_energy.demet,  # 
+                'eband' : step.total_energy.eband,  # 
+                'efieldcorr' : step.total_energy.efieldcorr,  # 
+                'ehart' : step.total_energy.ehart,  # hartree energy
+                'etot' : step.total_energy.etot,  # total energy
+                'etxc' : step.total_energy.etxc,  # total exchange-correlation energy
+                'ewald' : step.total_energy.ewald,  # 
+                'gatefield_contr' : step.total_energy.gatefield_contr,  # 
+                'potentiostat_contr' : step.total_energy.potentiostat_contr,  # 
+                'vtxc' : step.total_energy.vtxc,  # 
             },
             'forces': _string_to_matrix(step.forces.valueOf_),
             'stress': step.stress,

@@ -23,10 +23,9 @@ class PWCalculation():
         return
 
     def __repr__(self):
-        return 'METADATA:\n{}\n\nINPUT:\n"""\n{}\n"""\n\nOUTPUT:\n{}\n\nXML:\n{}\n'.format(pprint.pformat(self.metadata),
-                                                                                str(self.pwinput),
-                                                                                self.pwoutput,
-                                                                                self.pwxml)
+        return 'METADATA:\n{}\n\nINPUT:\n"""\n{}\n"""\n\nOUTPUT:\n{}\n\nXML:\n{}\n'.format(
+            pprint.pformat(self.metadata),
+            str(self.pwinput), self.pwoutput, self.pwxml)
 
     def write_input(self, path=None):
         if path:
