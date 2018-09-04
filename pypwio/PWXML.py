@@ -566,7 +566,7 @@ class PWXML(object):
     # This function returns in GPa
     @property
     def total_stress(self):
-        return np.linalg.trace(self.stress_tensor)
+        return np.trace(self.stress_tensor)
 
     ## band structure ##
     # Parser returns 1/2 Ry
@@ -619,9 +619,12 @@ class PWXML(object):
     def get_reciprocal_Lattice(self):
         return Lattice(matrix=self.reciprocal_lattice)
 
+    # FIXME: add support for spin polarized calculations
     def get_BandStructure(self):
+        eigenvalues = self.eigenvalues
+        eigendict = {'Spin.up': eigenvalues} 
         return BandStructure(efermi=self.fermi_energy,
-                             eigenvals=self.eigenvalues,
+                             eigenvals=eigendict,
                              kpoints=self.k_points,
                              structure=self.get_Structure(),
                              lattice=self.get_reciprocal_Lattice())
