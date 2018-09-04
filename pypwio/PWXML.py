@@ -80,7 +80,10 @@ class PWXML(object):
                                        'index': atomic_position.index} 
                                        for atomic_position in self._output.atomic_structure.atomic_positions.atom],
                 'bravais_index' : self._output.atomic_structure.bravais_index,
-                'cell' : self._output.atomic_structure.cell,
+                'cell' : [self._output.atomic_structure.cell.a1,
+                          self._output.atomic_structure.cell.a2,
+                          self._output.atomic_structure.cell.a3]
+                         if self._output.atomic_structure.cell else None,
                 'crystal_positions' : self._output.atomic_structure.get_crystal_positions(),
                 'nat' : self._output.atomic_structure.nat,
                 'wyckoff_positions' : self._output.atomic_structure.get_wyckoff_positions(),
@@ -458,23 +461,66 @@ class PWXML(object):
 
         return step_list
 
+    
+    ## crystal structure ##
+    @property
+    def alat(self):
+        return self.output.atomic_structure.alat
+
+    @property
+    def cell(self):
+        return self.output.atomic_structure.cell
+
+    @property
+    def atomic_positions(self):
+        return self.output.atomic_structure.atomic_positions
+
+    ## energy ##
+
+
+    ## magnetization ##
+
+
+    ## forces and stresses ##
+
+
+    ## band structure ##
+    @property
+    def k_points(self):
+        k_points = []
+        for ks_state in self.output['band_structure']['ks_energies']:
+            k_points.append(ks_state['k_point']['valueOf_'])
+        return k_points
+
+    @property
+    def k_point_weights(self):
+        weights = []
+        for ks_state in self.output['band_structure']['ks_energies']:
+            weights.append(ks_state['k_point']['weight'])
+        return weights
+
+    @property
+    def eigenvalues(self):
+        eigenvalues = []
+        for ks_state in self.output['band_structure']['ks_energies']:
+            eigenvalues.append(ks_state['eigenvalues'])
+        return eigenvalues
+
+    @property
+    def occupations(self):
+        occupations = []
+        for ks_state in self.output['band_structure']['ks_energies']:
+            occupations.append(ks_state['occupations'])
+        return occupations
+    
+    
     ## ANALYSIS METHODS ##
     # def get_bandstructure():
 
-    # def get_efermi():
-
     # def get_bandgap():
-
-    # def get_magnetization():
 
     # def get_final_structure():
     
-    # def get_final_total_energy():
-
-    # def get_final_forces():
-
-    # def get_final_stresses():
-
     
     @classmethod
     def from_dict(cls, pwxml_dict, silence=True, show_warnings=False):
