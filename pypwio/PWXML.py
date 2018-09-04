@@ -242,7 +242,7 @@ class PWXML(object):
                 'cell' : [[float(i) for i in self._input.atomic_structure.cell.a1],
                           [float(i) for i in self._input.atomic_structure.cell.a2],
                           [float(i) for i in self._input.atomic_structure.cell.a3]]
-                          if self._input.atomic_structure.cell else None,
+                         if self._input.atomic_structure.cell else None,
                 'crystal_positions' : self._input.atomic_structure.get_crystal_positions(),
                 'nat' : self._input.atomic_structure.nat,
                 'wyckoff_positions' : self._input.atomic_structure.get_wyckoff_positions(),
@@ -266,7 +266,8 @@ class PWXML(object):
                 'ecutwfc' : self._input.basis.ecutwfc,
                 'fft_box' : self._input.basis.fft_box,
                 'fft_grid' : [self._input.basis.fft_grid.nr1,
-                                self._input.basis.fft_grid.nr2,
+                              self._input.basis.fft_grid.nr2]
+                             if self._input.basis.fft_grid else None,
                 'crystal_positions' : self._input.atomic_structure.get_crystal_positions(),
                 'nat' : self._input.atomic_structure.nat,
                 'wyckoff_positions' : self._input.atomic_structure.get_wyckoff_positions(),
