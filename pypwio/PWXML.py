@@ -623,10 +623,12 @@ class PWXML(object):
     def get_BandStructure(self):
         eigenvalues = self.eigenvalues
         eigendict = {Spin.up: eigenvalues} 
-        return BandStructure(efermi=self.fermi_energy,
+        highsymmkpath = HighSymmKpath(sel.get_Structure()).get_kpath()
+        return BandStructureSymmLine(efermi=self.fermi_energy,
                              eigenvals=eigendict,
                              kpoints=self.k_points,
                              structure=self.get_Structure(),
+                             label_dict=highsymmkpath,
                              lattice=self.get_reciprocal_Lattice())
 
     # def get_DOS(self):
