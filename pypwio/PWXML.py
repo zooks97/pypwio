@@ -629,7 +629,7 @@ class PWXML(object):
                              eigenvals=eigendict,
                              kpoints=self.k_points,
                              structure=self.get_Structure(),
-                             label_dict=highsymmkpath,
+                             labels_dict=highsymmkpath,
                              lattice=self.get_reciprocal_Lattice())
 
     # def get_DOS(self):
