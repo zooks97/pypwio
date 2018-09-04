@@ -3,11 +3,6 @@ import warnings
 import pprint
 import numpy as np
 
-EV_PER_RY = 13.6056917253
-A_PER_BOHR = 0.52917720859
-A3_PER_BOHR3 = A_PER_BOHR ** 3
-GPA_PER_EV_A3 = 160.21766208
-
 def _string_to_matrix(string):
     lines = string.strip().split('\n')
     matrix = []
@@ -86,9 +81,9 @@ class PWXML(object):
                                        'index': atomic_position.index} 
                                        for atomic_position in self._output.atomic_structure.atomic_positions.atom],
                 'bravais_index' : self._output.atomic_structure.bravais_index,
-                'cell' : [[float(i) for i in self._output.atomic_structure.cell.a1],
-                          [float(i) for i in self._output.atomic_structure.cell.a2],
-                          [float(i) for i in self._output.atomic_structure.cell.a3]]
+                'cell' : [self._output.atomic_structure.cell.a1,
+                          self._output.atomic_structure.cell.a2,
+                          self._output.atomic_structure.cell.a3]
                          if self._output.atomic_structure.cell else None,
                 'crystal_positions' : self._output.atomic_structure.get_crystal_positions(),
                 'nat' : self._output.atomic_structure.nat,
@@ -467,40 +462,26 @@ class PWXML(object):
 
         return step_list
 
-   
-    # TODO: looks like a lot of these are 1/2 the value in the stdout
+    
     ## crystal structure ##
-    # Input units (?)
     @property
     def alat(self):
-        return self.output['atomic_structure']['alat']
+        return self.output.atomic_structure.alat
 
-    # Input units (?)
     @property
     def cell(self):
-        return self.output['atomic_structure']['cell']
+        return self.output.atomic_structure.cell
 
-    # Units unkown
     @property
     def atomic_positions(self):
-        return self.output['atomic_structure']['atomic_positions']
+        return self.output.atomic_structure.atomic_positions
     
-    # 2pi/alat
-    # @property
-    # def reciprocal_lattice(self):
-    #     return self.output['basis_set']['reciprocal_lattice']
-    # 2pi/input unit
     @property
     def reciprocal_lattice(self):
-        lattice = np.array(self.cell)
-        reciprocal_lattice = 2 * np.pi * np.linalg.inv(lattice)
-        return reciprocal_lattice
+        return self.output['basis_set']['reciprocal_lattice']
 
     ## energy ##
-    # Parser seems to give 1/2 Ry
-    # This function returns Ry
-    @property total_energy(self):
-        return self.output['total_energy']['etot'] * 2
+    
 
     ## magnetization ##
     @property
@@ -512,34 +493,22 @@ class PWXML(object):
         return self.output['magnetization']['total_magnetization']
 
     ## forces and stresses ##
-
-    # Unit unknown
     @property
     def forces(self):
         return self.output['forces']
 
-    # Looks like the value parsed is in 1/2 Ry/bohr**3
-    # This function returns in GPa
     @property
     def stress_tensor(self):
-        tensor_ry_bohr3 = np.array(self.output['stress']) * 2
-        tensor_ev_a3 = tensor_ry_bohr3 / A3_PER_BOHR3 * EV_PER_RY
-        tensor_gpa = tensor_ev_a3 * GPA_PER_EV_A3
-        return tensor_gpa.tolist()
+        return self.output['stress']
 
     # TODO: check that the trace is the appropriate measure
-    # This function returns in GPa
     @property
     def total_stress(self);
-        return np.linalg.trace(self.stress_tensor)
+        return np.linalg.trace(self.output['stress'])
+
+    ## basis set ##
 
     ## band structure ##
-    # Parser returns 1/2 Ry
-    # This function returns eV
-    @property
-    def fermi_energy(self):
-        return self.output['band_structure']['fermi_energy'] * EV_PER_RY * 2
-
     @property
     def k_points(self):
         k_points = []
@@ -554,14 +523,11 @@ class PWXML(object):
             weights.append(ks_state['k_point']['weight'])
         return weights
 
-    # Looks like the value parsed is in 1/2 Ry
-    # This function returns in eV
     @property
     def eigenvalues(self):
         eigenvalues = []
         for ks_state in self.output['band_structure']['ks_energies']:
-            eigen = np.array(ks_state['eigenvalues']) * EV_PER_RY * 2
-            eigenvalues.append(eigen.tolist())
+            eigenvalues.append(ks_state['eigenvalues'])
         return eigenvalues
 
     @property
@@ -573,48 +539,11 @@ class PWXML(object):
     
     
     ## ANALYSIS METHODS ##
-    def get_Lattice(self):
-        return Lattice(matrix=self.cell)
+    # def get_bandstructure():
 
-    def get_Structure(self):
-        return Structure(lattice=self.get_Lattice(),
-                         species=[s['name'] for s in self.atomic_positions],
-                         coords=[s['position'] for s in self.atomic_positions])
+    # def get_bandgap():
 
-    def get_reciprocal_Lattice(self):
-        return Lattice(matrix=self.reciprocal_lattice)
-
-    def get_BandStructure(self):
-        return BandStructure(efermi=self.fermi_energy,
-                             eigenvals=self.eigenvalues,
-                             kpoints=self.k_points,
-                             structure=self.get_Structure(),
-                             lattice=self.get_reciprocal_Lattice())
-
-    # def get_DOS(self):
-    #     return DOS(efermi=self.fermi_energy,
-    #                densities=self.k_point_weights,
-    #                energies=
-
-
-    def get_band_gap():
-        return self.get_BandStructure.get_band_gap()['energy']
-
-    def is_direct_band_gap():
-        return self.get_BandStructure.get_band_gap()['direct']
-
-    def get_direct_band_gap():
-        return self.get_BandStructure.get_direct_band_gap()
-
-    def is_metal():
-        return self.get_BandStructure.is_metal()
-
-    def get_cbm():
-        return self.get_BandStructure.get_cbm()
-
-    def get_vbm():
-        return self.get_BandStructure.get_vbm()
-
+    # def get_final_structure():
     
     
     @classmethod
