@@ -3,7 +3,7 @@ import warnings
 import pprint
 import numpy as np
 
-from pymatgen import Structure, Lattice
+from pymatgen import Structure, Lattice, Spin
 from pymatgen.electronic_structure.bandstructure import BandStructure
 
 EV_PER_RY = 13.6056917253
@@ -622,7 +622,7 @@ class PWXML(object):
     # FIXME: add support for spin polarized calculations
     def get_BandStructure(self):
         eigenvalues = self.eigenvalues
-        eigendict = {'Spin.up': eigenvalues} 
+        eigendict = {Spin.up: eigenvalues} 
         return BandStructure(efermi=self.fermi_energy,
                              eigenvals=eigendict,
                              kpoints=self.k_points,
