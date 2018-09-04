@@ -239,7 +239,34 @@ class PWXML(object):
                                        'index': atomic_position.index} 
                                        for atomic_position in self._input.atomic_structure.atomic_positions.atom],
                 'bravais_index' : self._input.atomic_structure.bravais_index,
-                'cell' : self._input.atomic_structure.cell,
+                'cell' : [[float(i) for i in self._input.atomic_structure.cell.a1],
+                          [float(i) for i in self._input.atomic_structure.cell.a2],
+                          [float(i) for i in self._input.atomic_structure.cell.a3]
+                          if self._input.atomic_structure.cell else None,
+                'crystal_positions' : self._input.atomic_structure.get_crystal_positions(),
+                'nat' : self._input.atomic_structure.nat,
+                'wyckoff_positions' : self._input.atomic_structure.get_wyckoff_positions(),
+            },
+            'bands': {
+                'input_occupations': self._input.bands.inputOccupations,
+                'nbnd': self._input.bands.nbnd, 
+                'occupations': {
+                    'spin': self._input.bands.occupations.spin,
+                    'valueOf_': self._input.bands.occupations.valueOf_
+                },
+                'smearing': {
+                    'degauss': self._input.bands.smearing.degauss,
+                    'valueOf_': self._input.bands.smearing.valueOf_
+                },
+                'tot_charge': self._input.bands.tot_charge,
+                'tot_magnetization': self._input.bands.tot_magnetization
+            },
+            'basis': {
+                'ecutrho' : self._input.basis.ecutrho,
+                'ecutwfc' : self._input.basis.ecutwfc,
+                'fft_box' : self._input.basis.fft_box,
+                'fft_grid' : [self._input.basis.fft_grid.nr1,
+                                self._input.basis.fft_grid.nr2,
                 'crystal_positions' : self._input.atomic_structure.get_crystal_positions(),
                 'nat' : self._input.atomic_structure.nat,
                 'wyckoff_positions' : self._input.atomic_structure.get_wyckoff_positions(),
