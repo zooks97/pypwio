@@ -473,7 +473,10 @@ class PWXML(object):
                                        'index': atomic_position.index} 
                                        for atomic_position in step.atomic_structure.atomic_positions.atom],
                 'bravais_index' : step.atomic_structure.bravais_index,
-                'cell' : step.atomic_structure.cell,
+                'cell' : [[float(i) for i in step.atomic_structure.cell.a1],
+                          [float(i) for i in step.atomic_structure.cell.a2],
+                          [float(i) for i in step.atomic_structure.cell.a3]]
+                         if step.atomic_structure.cell else None,
                 'crystal_positions' : step.atomic_structure.get_crystal_positions(),
                 'nat' : step.atomic_structure.nat,
                 'wyckoff_positions' : step.atomic_structure.get_wyckoff_positions(),
