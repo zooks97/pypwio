@@ -635,5 +635,5 @@ class PWOutput(object):
 
     @classmethod
     def from_dict(cls, pwout_dict):
-        pwout = cls(pwout_dict['stdout_lines'], pwout_dict['stdout_path'])
+        pwout = cls('\n'.join(pwout_dict['stdout_lines']), pwout_dict['stdout_path'])
         return pwout
