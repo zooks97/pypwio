@@ -624,6 +624,16 @@ class PWXML(object):
     def get_BandStructure(self):
         eigenvalues = self.eigenvalues
         eigendict = {Spin.up: eigenvalues} 
+        return BandStructure(efermi=self.fermi_energy,
+                             eigenvals=eigendict,
+                             kpoints=self.k_points,
+                             structure=self.get_Structure(),
+                             lattice=self.get_reciprocal_Lattice())
+
+    # FIXME: add support for spin polarized calculations
+    def get_BandStructureSymmLine(self):
+        eigenvalues = self.eigenvalues
+        eigendict = {Spin.up: eigenvalues} 
         highsymmkpath = HighSymmKpath(self.get_Structure().get_primitive_structure()).kpath
         return BandStructureSymmLine(efermi=self.fermi_energy,
                              eigenvals=eigendict,
