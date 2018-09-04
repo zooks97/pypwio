@@ -4,7 +4,8 @@ import pprint
 import numpy as np
 
 from pymatgen import Structure, Lattice, Spin
-from pymatgen.electronic_structure.bandstructure import BandStructure
+from pymatgen.electronic_structure.bandstructure import BandStructure, BandStructureSymmLine
+from pymatgen.symmetry.bandstructure import HighSymmKpath
 
 EV_PER_RY = 13.6056917253
 A_PER_BOHR = 0.52917720859
