@@ -241,7 +241,7 @@ class PWXML(object):
                 'bravais_index' : self._input.atomic_structure.bravais_index,
                 'cell' : [[float(i) for i in self._input.atomic_structure.cell.a1],
                           [float(i) for i in self._input.atomic_structure.cell.a2],
-                          [float(i) for i in self._input.atomic_structure.cell.a3]
+                          [float(i) for i in self._input.atomic_structure.cell.a3]]
                           if self._input.atomic_structure.cell else None,
                 'crystal_positions' : self._input.atomic_structure.get_crystal_positions(),
                 'nat' : self._input.atomic_structure.nat,
