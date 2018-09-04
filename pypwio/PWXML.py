@@ -624,7 +624,7 @@ class PWXML(object):
     def get_BandStructure(self):
         eigenvalues = self.eigenvalues
         eigendict = {Spin.up: eigenvalues} 
-        highsymmkpath = HighSymmKpath(self.get_Structure()).kpath
+        highsymmkpath = HighSymmKpath(self.get_Structure().get_primitive_structure()).kpath
         return BandStructureSymmLine(efermi=self.fermi_energy,
                              eigenvals=eigendict,
                              kpoints=self.k_points,
