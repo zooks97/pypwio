@@ -3,6 +3,9 @@ import warnings
 import pprint
 import numpy as np
 
+from pymatgen import Structure, Lattice
+from pymatgen.electronic_structure.bandstructure import BandStructure
+
 EV_PER_RY = 13.6056917253
 A_PER_BOHR = 0.52917720859
 A3_PER_BOHR3 = A_PER_BOHR ** 3
@@ -499,7 +502,8 @@ class PWXML(object):
     ## energy ##
     # Parser seems to give 1/2 Ry
     # This function returns Ry
-    @property total_energy(self):
+    @property
+    def total_energy(self):
         return self.output['total_energy']['etot'] * 2
 
     ## magnetization ##
@@ -530,7 +534,7 @@ class PWXML(object):
     # TODO: check that the trace is the appropriate measure
     # This function returns in GPa
     @property
-    def total_stress(self);
+    def total_stress(self):
         return np.linalg.trace(self.stress_tensor)
 
     ## band structure ##
