@@ -31,6 +31,14 @@ class PWOutput(object):
                               }
         self.success = self.check_success()
         return
+
+    def __repr__(self):
+        # success = str(self.check_success())
+        # structure = 
+        # energy = 
+        # stress = 
+        # forces = 
+        pass 
                           
     ## CRITICAL WARNINGS ##
     def check_job_done(self):

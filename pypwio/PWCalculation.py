@@ -54,8 +54,8 @@ class PWCalculation():
         with open(path, 'r') as f:
             text = f.read()
         self.pwoutput = PWOutput(stdout_string=text, stdout_path=path)
-        if self.pwoutput:
-            self.metadata['DFTman_status'].append('parsed')
+        # if self.pwoutput:
+        #     self.metadata['DFTman_status'].append('parsed')
         return self.pwoutput
 
     def parse_xml(self, path=None):
