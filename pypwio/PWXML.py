@@ -202,7 +202,8 @@ class PWXML(object):
                                'fractional_translation': [float(i) for i in symmetry.fractional_translation] \
                                     if symmetry.fractional_translation else None,
                                'equivalent_atoms': {'nat': symmetry.equivalent_atoms.nat,
-                                                    'valueOf_': symmetry.equivalent_atoms.valueOf_}
+                                                    'valueOf_': symmetry.equivalent_atoms.valueOf_} \
+                                                   if symmetry.equivalent_atoms else None
                               } for symmetry in self._output.symmetries.symmetry] \
                              if self._output.symmetries.symmetry else None
             },
