@@ -104,10 +104,10 @@ class PWXML(object):
                 'ks_energies' : [{'npw': ks.npw,
                                 'k_point': {'weight': ks.k_point.weight,
                                             'label': ks.k_point.label,
-                                                'valueOf_': _string_to_matrix(ks.k_point.valueOf_)},
+                                            'valueOf_': _string_to_matrix(ks.k_point.valueOf_)},
                                 'eigenvalues': _string_to_matrix(ks.eigenvalues.valueOf_),
                                 'occupations': _string_to_matrix(ks.occupations.valueOf_)}
-                                    for ks in self._output.band_structure.ks_energies],
+                                for ks in self._output.band_structure.ks_energies],
                 'band_lsda' : self._output.band_structure.lsda,
                 'nbnd' : self._output.band_structure.nbnd,
                 'nbnd_dw' : self._output.band_structure.nbnd_dw,
@@ -122,14 +122,16 @@ class PWXML(object):
                 'degauss' : self._output.band_structure.smearing.degauss,
                 'spinorbit ' : self._output.band_structure.spinorbit,
                 'starting_k_points' : {'monkhorst_pack': {'nk': [self._output.band_structure.starting_k_points.monkhorst_pack.nk1,
-                                                                    self._output.band_structure.starting_k_points.monkhorst_pack.nk2,
-                                                                    self._output.band_structure.starting_k_points.monkhorst_pack.nk3],
+                                                                 self._output.band_structure.starting_k_points.monkhorst_pack.nk2,
+                                                                 self._output.band_structure.starting_k_points.monkhorst_pack.nk3],
                                                           'k': [self._output.band_structure.starting_k_points.monkhorst_pack.k1,
                                                                 self._output.band_structure.starting_k_points.monkhorst_pack.k2,
                                                                 self._output.band_structure.starting_k_points.monkhorst_pack.k3],
-                                                            'valueOf_': self._output.band_structure.starting_k_points.monkhorst_pack.valueOf_},
+                                                          'valueOf_': self._output.band_structure.starting_k_points.monkhorst_pack.valueOf_}
+                                                          if self._output.band_structure.starting_k_points.monkhorst_pack else None,
                                         'nk': self._output.band_structure.starting_k_points.nk,
-                                        'k_point': self._output.band_structure.starting_k_points.k_point},
+                                        'k_point': self._output.band_structure.starting_k_points.k_point}
+                                        if self._output.band_structure.starting_k_points else None,
                 'two_fermi_energies' : self._output.band_structure.two_fermi_energies,
                 'wf_collected' : self._output.band_structure.wf_collected,
             },
@@ -152,6 +154,7 @@ class PWXML(object):
                 'reciprocal_lattice' : [[float(i) for i in self._output.basis_set.reciprocal_lattice.b1],
                                         [float(i) for i in self._output.basis_set.reciprocal_lattice.b2],
                                         [float(i) for i in self._output.basis_set.reciprocal_lattice.b3]]
+                                       if self._output.basis_set.reciprocal_lattice else None
             },
             'boundary_conditions': {
 
@@ -199,7 +202,8 @@ class PWXML(object):
                                 'fractional_translation': [float(i) for i in symmetry.fractional_translation],
                                 'equivalent_atoms': {'nat': symmetry.equivalent_atoms.nat,
                                                     'valueOf_': symmetry.equivalent_atoms.valueOf_}
-                                } for symmetry in self._output.symmetries.symmetry],
+                                } for symmetry in self._output.symmetries.symmetry]
+                             if self._output.symmetries.symmetry else None,
             },
             'total_energy': {
                 'demet' : self._output.total_energy.demet,
@@ -388,7 +392,8 @@ class PWXML(object):
                                     'k': [self._input.k_points_IBZ.monkhorst_pack.k1,
                                           self._input.k_points_IBZ.monkhorst_pack.k2,
                                           self._input.k_points_IBZ.monkhorst_pack.k3],
-                                    'valueOf_': self._input.k_points_IBZ.monkhorst_pack.valueOf_},
+                                    'valueOf_': self._input.k_points_IBZ.monkhorst_pack.valueOf_}
+                                   if self._input.k_points_IBZ.monkhorst_pack else None,
                 'nk': self._input.k_points_IBZ.nk
             },
             'spin': {
