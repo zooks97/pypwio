@@ -71,6 +71,18 @@ class PWXML(object):
 
     @property
     def output(self):
+        if self._output.symmetries.symmetry:
+            symmetries_symmetry = [{'info': {'name': symmetry.info.name,
+                                            'time_reversal': symmetry.info.time_reversal,
+                                            'valueOf_': symmetry.info.valueOf_},
+                                    'rotation': _string_to_matrix(symmetry.rotation.valueOf_),
+                                    'fractional_translation': [float(i) for i in symmetry.fractional_translation],
+                                    'equivalent_atoms': {'nat': symmetry.equivalent_atoms.nat,
+                                                        'valueOf_': symmetry.equivalent_atoms.valueOf_}
+                                    } for symmetry in self._output.symmetries.symmetry]
+        else:
+            symmetries_symmetry = None
+
         output_dict = {
             'atomic_species': {
                 'ntyp' : self._output.atomic_species.ntyp,
@@ -195,15 +207,7 @@ class PWXML(object):
                 'nrot' : self._output.symmetries.nrot,
                 'nsym' : self._output.symmetries.nsym,
                 'space_group' : self._output.symmetries.space_group,
-                'symmetry' : [{'info': {'name': symmetry.info.name,
-                                        'time_reversal': symmetry.info.time_reversal,
-                                        'valueOf_': symmetry.info.valueOf_},
-                                'rotation': _string_to_matrix(symmetry.rotation.valueOf_),
-                                'fractional_translation': [float(i) for i in symmetry.fractional_translation],
-                                'equivalent_atoms': {'nat': symmetry.equivalent_atoms.nat,
-                                                    'valueOf_': symmetry.equivalent_atoms.valueOf_}
-                                } for symmetry in self._output.symmetries.symmetry] if \
-                                self._output.symmetries.symmetry else None
+                'symmetry' : symmetries_symmetry
             },
             'total_energy': {
                 'demet' : self._output.total_energy.demet,
